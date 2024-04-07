@@ -39,8 +39,7 @@ const AvatarDisplay: FC<AvatarDisplayProps> = ({
   const handleDownload = (size: "full" | "small"): void => {
     const canvas = canvasRef.current;
     if (canvas) {
-      let link = document.createElement("a");
-      link.download = `avatar-${size}.png`;
+      let dataUrl;
       if (size === "small") {
         // Resize for small download
         const offscreenCanvas = document.createElement("canvas");
@@ -49,13 +48,30 @@ const AvatarDisplay: FC<AvatarDisplayProps> = ({
         const offCtx = offscreenCanvas.getContext("2d");
         if (offCtx) {
           offCtx.drawImage(canvas, 0, 0, 512, 512);
-          link.href = offscreenCanvas.toDataURL("image/png");
+          dataUrl = offscreenCanvas.toDataURL("image/png");
         }
       } else {
         // Use the original size
-        link.href = canvas.toDataURL("image/png");
+        dataUrl = canvas.toDataURL("image/png");
       }
-      link.click();
+
+      if (dataUrl) {
+        // Use a different approach based on the platform.
+        // This is a simplistic check and might need adjustments for your specific needs.
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+          // For mobile devices, open the image in a new tab.
+          // Users can save the image manually from there.
+          window.open(dataUrl, "_blank");
+        } else {
+          // For desktop browsers, use the download attribute for automatic downloading.
+          const link = document.createElement("a");
+          link.download = `avatar-${size}.png`;
+          link.href = dataUrl;
+          document.body.appendChild(link); // This line is optional and can be removed if not needed
+          link.click();
+          document.body.removeChild(link); // This line is optional and can be removed if not needed
+        }
+      }
     }
   };
 
