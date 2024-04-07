@@ -65,7 +65,7 @@ const Home = () => {
     );
   }
 
-  if (nfts.length === 0) {
+  if (!nfts || (nfts && nfts.length === 0)) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div>No NFTs found for connected wallet.</div>
@@ -73,7 +73,7 @@ const Home = () => {
     );
   }
 
-  if (nfts.length > 0 && selectedNft) {
+  if (nfts && nfts.length > 0 && selectedNft) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-start mx-4">
         <div className="max-w-96">
@@ -98,21 +98,6 @@ const Home = () => {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div>Error. Please try later.</div>
-    </div>
-  );
-
-  return (
-    <div className="mt-20">
-      {nfts.map((nft) => (
-        <div key={nft.tokenId}>
-          <p>{nft.name}</p>
-          <img
-            src={nft.image.thumbnailUrl}
-            alt={nft.name}
-            className="w-24 h-24 rounded-full"
-          />
-        </div>
-      ))}
     </div>
   );
 };
