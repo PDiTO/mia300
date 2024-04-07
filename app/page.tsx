@@ -75,7 +75,7 @@ const Home = () => {
 
   if (nfts.length > 0 && selectedNft) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-start">
+      <div className="min-h-screen flex flex-col items-center justify-start mx-4">
         <div className="max-w-96">
           <div className="h-24 "></div>
           {nfts.length > 1 && (
@@ -89,6 +89,7 @@ const Home = () => {
             avatarImage={selectedNft?.image.pngUrl}
             selectedBackground={`/background/${selectedBackground}`}
           />
+          <div className="h-24 "></div>
         </div>
       </div>
     );

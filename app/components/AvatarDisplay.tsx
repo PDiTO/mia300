@@ -17,20 +17,50 @@ const AvatarDisplay: FC<AvatarDisplayProps> = ({
     if (canvas) {
       const ctx = canvas.getContext("2d");
       if (ctx) {
-        // Load and draw the background
+        // Display a loading message
+        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.font = "96px Arial";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.fillText("Loading...", canvas.width / 2, canvas.height / 2);
+
+        let backgroundLoaded = false;
+        let avatarLoaded = false;
         const background = new Image();
-        background.src = selectedBackground;
-        background.onload = () => {
-          ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-          // Load and draw the avatar image on top of the background
-          const avatar = new Image();
-          avatar.crossOrigin = "anonymous";
-          avatar.src = avatarImage;
-          avatar.onload = () => {
+        const avatar = new Image();
+
+        // Function to check if both images are loaded
+        const tryDrawImages = () => {
+          if (backgroundLoaded && avatarLoaded) {
+            // Both images have loaded, clear the canvas and draw them
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
             ctx.drawImage(avatar, 0, 0, canvas.width, canvas.height);
             // Update the download URL
             setDownloadUrl(canvas.toDataURL("image/png"));
-          };
+          }
+        };
+
+        // Load and draw the background
+        background.src = selectedBackground;
+        background.onload = () => {
+          backgroundLoaded = true;
+          tryDrawImages(); // Check if it's time to draw the images
+        };
+        background.onerror = () => {
+          console.error("Failed to load background image");
+        };
+
+        // Load and draw the avatar image on top of the background
+        avatar.crossOrigin = "anonymous"; // Use this for CORS if needed
+        avatar.src = avatarImage;
+        avatar.onload = () => {
+          avatarLoaded = true;
+          tryDrawImages(); // Check if it's time to draw the images
+        };
+        avatar.onerror = () => {
+          console.error("Failed to load avatar image");
         };
       }
     }
