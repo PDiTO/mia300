@@ -18,7 +18,7 @@ const BackgroundSelector: React.FC<BackgroundSelectorProps> = ({
       >
         <Image
           className="rounded-sm"
-          src={`/background/${backgroundUrl}`}
+          src={`/background/thumbs/${backgroundUrl}`}
           alt="Background"
           width={55}
           height={55}

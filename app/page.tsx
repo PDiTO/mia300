@@ -31,7 +31,7 @@ const Home = () => {
 
       try {
         const response = await fetch(
-          `https://eth-mainnet.g.alchemy.com/nft/v3/lYSVBdC4aqSN6MVbypL5582w_ilGSCMr/getNFTsForOwner?owner=${address}&contractAddresses[]=${contractAddress}&withMetadata=true&pageSize=100`,
+          `https://eth-mainnet.g.alchemy.com/nft/v3/lYSVBdC4aqSN6MVbypL5582w_ilGSCMr/getNFTsForOwner?owner=${tempAddress}&contractAddresses[]=${contractAddress}&withMetadata=true&pageSize=100`,
           options
         );
         const data = await response.json();
