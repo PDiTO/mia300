@@ -36,7 +36,7 @@ const Home = () => {
         );
         const data = await response.json();
         setNfts(data.ownedNfts);
-        if (data.ownedNfts.length > 0) {
+        if (data && data.ownedNfts && data.ownedNfts.length > 0) {
           setSelectedNft(data.ownedNfts[0]);
         }
       } catch (error) {
