@@ -1,9 +1,15 @@
-import { http, createConfig } from "wagmi";
-import { mainnet, sepolia } from "wagmi/chains";
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { mainnet } from "viem/chains";
 
-export const config = createConfig({
+const walletConnectProjectId = "7b89f04f8986abd750f74d7668f82275";
+
+// Transports must be set for each chain
+
+const config = getDefaultConfig({
+  appName: "Demo",
+  projectId: walletConnectProjectId,
   chains: [mainnet],
-  transports: {
-    [mainnet.id]: http(),
-  },
+  ssr: true,
 });
+
+export { config };
